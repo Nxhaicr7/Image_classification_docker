@@ -1,11 +1,12 @@
-# Base image đơn giản, không dùng GPU
-FROM python:3.9-slim
+# Sử dụng base image nhẹ hơn (Python 3.10, không dùng GPU)
+FROM python:3.10-slim
 
+# Thiết lập môi trường không tương tác và timezone
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Ho_Chi_Minh
 
-# Cài đặt thư viện hệ thống cần thiết
-RUN apt-get update && apt-get install -y \
+# Cài đặt các thư viện hệ thống cần thiết
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     git \
     ffmpeg \
@@ -17,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 # Đặt thư mục làm việc
 WORKDIR /app
 
-# Cài thư viện Python
+# Copy file requirements.txt vào container và cài đặt các thư viện Python
 COPY Requirements.txt .
 RUN pip install --upgrade pip && pip install --no-cache-dir -r Requirements.txt
 
