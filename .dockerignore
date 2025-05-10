@@ -1,8 +1,6 @@
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.swp
-.env
-.vscode/
-.idea/
+*.pt
+*.pth
+models/
+datasets/
+*.ipynb
