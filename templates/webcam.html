@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webcam Animal Detection</title>
+    <style>
+        video, canvas { display: block; margin: 10px auto; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Webcam Animal Detection</h2>
+    <video id="video" width="900" height="500" autoplay></video>
+    <canvas id="canvas" width="400" height="300" style="display: none;"></canvas>
+    <p id="result" style="text-align: center; font-size: 20px;"></p>
+    <p style="text-align: center;"><a href="/">← Quay lại trang chính</a></p>
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const result = document.getElementById("result");
+        const context = canvas.getContext("2d");
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                setInterval(() => {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const dataURL = canvas.toDataURL("image/jpeg");
+                    fetch("/api/predict_webcam", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ image: dataURL })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.label) {
+                            result.textContent = `${data.label} (${data.score})`;
+                        }
+                    });
+                }, 1000); // gửi ảnh mỗi 1 giây
+            })
+            .catch(err => {
+                alert("Không thể mở webcam: " + err);
+            });
+    </script>
+</body>
+</html>

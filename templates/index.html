@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animal Classifier</title>
+    <style>
+        body {
+                background-image: url("/static/templates.jpeg");
+                background-repeat: no-repeat;
+                background-size: 38%;
+                background-position: right;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 20px;
+                height: 100vh;
+        }
+        .container {
+            width: 60%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-bottom: 220px;
+        }
+
+        h1 {
+            color: red;
+            font-size: 40px;
+        }
+
+        form {
+            border-style: solid;
+            background-color: lightblue;
+            width: 300px;
+            margin-top: 20px;
+            margin-left: 0px;
+            border-radius: 15px;
+        }
+
+        .image {
+            display: flex;
+            justify-content: space-between;
+            height: 300px;
+        }
+
+        .result {
+            font-size: 24px;
+            color: green;
+            margin-top: 20px;
+            margin-right: 0px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            bottom: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Animal Classification</h1>
+
+        <!-- Form upload ảnh -->
+        <div class="image">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <br><br>
+                <button type="submit">Phân loại từ ảnh</button>
+            </form>
+
+
+            <div class="result">
+                <!-- Kết quả -->
+                {% if prediction %}
+                <div class="result">
+                    <p><strong>Kết quả:</strong> {{ prediction }}</p>
+                    <img src="{{ image_path }}" alt="Uploaded Image">
+                </div>
+
+
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Nút mở webcam -->
+        <div class="buttons">
+            <form action="/webcam" method="GET">
+                <button type="submit">Mở Webcam</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
