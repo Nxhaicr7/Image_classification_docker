@@ -1,6 +1,10 @@
 __pycache__/
+*.pyc
+*.pyo
+*.ipynb
+*.log
 *.pt
 *.pth
 models/
 datasets/
-*.ipynb
+.git/
